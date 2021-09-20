@@ -1,0 +1,21 @@
+services:
+  quick-sample-api:
+    image: quick-sample-api
+    build:
+      context: ./Api
+      dockerfile: Dockerfile
+    ports:
+      - "5051:80"
+    depends_on:
+      - mssql-graph-db
+
+  mssql-graph-db:
+    image: mssql-graph-db
+    build:
+      context: ./Database
+      dockerfile: Dockerfile
+    ports:
+      - 5434:1433
+    environment:
+      - SA_PASSWORD=Yukon900
+      - ACCEPT_EULA=Y
