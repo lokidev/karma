@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using QuickSampleApi.Services;
+using KarmaApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace QuickSampleApi.Controllers
+namespace KarmaApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SampleController : ControllerBase
+    public class KarmaController : ControllerBase
     {
-        private ISampleService _sampleService;
-        public SampleController(ISampleService sampleService)
+        private IKarmaService _karmaService;
+        public KarmaController(IKarmaService karmaService)
         {
-            _sampleService = sampleService;
+            _karmaService = karmaService;
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_sampleService.GetAll());
+            return Ok(_karmaService.GetAll());
         }
     }
 }

@@ -1,6 +1,6 @@
 services:
-  quick-sample-api:
-    image: quick-sample-api
+  karma-api:
+    image: karma-api
     build:
       context: ./Api
       dockerfile: Dockerfile
@@ -15,7 +15,7 @@ services:
       context: ./Database
       dockerfile: Dockerfile
     ports:
-      - 5434:1433
+      - 5431:1433
     environment:
       - SA_PASSWORD=Yukon900
       - ACCEPT_EULA=Y

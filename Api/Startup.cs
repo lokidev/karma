@@ -4,7 +4,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using QuickSampleApi.Services;
+using KarmaApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -15,7 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
-namespace QuickSampleApi
+namespace KarmaApi
 {
     public class Startup
     {
@@ -42,7 +42,7 @@ namespace QuickSampleApi
                                     });
             });
             services.AddControllers();
-            services.AddScoped<ISampleService, SampleService>();
+            services.AddScoped<IKarmaService, KarmaService>();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             // Register the Swagger generator, defining 1 or more Swagger documents
@@ -51,7 +51,7 @@ namespace QuickSampleApi
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "Sample API",
+                    Title = "Karma API",
                     Description = "A simple example ASP.NET Core Web API",
                     Contact = new OpenApiContact
                     {
@@ -88,7 +88,7 @@ namespace QuickSampleApi
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sample API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Karma API V1");
                 c.RoutePrefix = string.Empty;
             });
 

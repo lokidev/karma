@@ -1,26 +1,26 @@
-using QuickSampleApi.Models;
+using KarmaApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QuickSampleApi.Repos
+namespace KarmaApi.Repos
 {
-    public class SampleRepo
+    public class KarmaRepo
     {
-        private SampleContext db;
+        private KarmaContext db;
 
-        public SampleRepo(SampleContext db)
+        public KarmaRepo(KarmaContext db)
         {
             this.db = db;
         }
 
-        public List<Sample> GetProduts()
+        public List<Karma> GetProduts()
         {
             if (db != null)
             {
-                List<Sample> employees = new List<Sample>();
+                List<Karma> employees = new List<Karma>();
 
-                var result = db.Samples.OrderByDescending(x => x.SampleName).ToList();
+                var result = db.Karmas.OrderByDescending(x => x.KarmaName).ToList();
 
                 return result;
             }

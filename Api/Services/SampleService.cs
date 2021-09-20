@@ -1,27 +1,27 @@
-﻿using QuickSampleApi.Models;
+﻿using KarmaApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using QuickSampleApi.Repos;
+using KarmaApi.Repos;
 using Microsoft.Extensions.Configuration;
 
-namespace QuickSampleApi.Services
+namespace KarmaApi.Services
 {
-    public class SampleService : ISampleService
+    public class KarmaService : IKarmaService
     {
         private readonly IConfiguration _configuration;
 
-        public SampleService(IConfiguration configuration)
+        public KarmaService(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public ICollection<Sample> GetAll()
+        public ICollection<Karma> GetAll()
         {
-            using (var db = new SampleContext(_configuration))
+            using (var db = new KarmaContext(_configuration))
             {
-                var t = new SampleRepo(db);
+                var t = new KarmaRepo(db);
                 return t.GetProduts();
             }
         }

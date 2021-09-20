@@ -1,13 +1,13 @@
-﻿using QuickSampleApi.Models;
+﻿using KarmaApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QuickSampleApi.Services
+namespace KarmaApi.Services
 {
-    public interface ISampleService
+    public interface IKarmaService
     {
-        public ICollection<Sample> GetAll();
+        public ICollection<Karma> GetAll();
     }
 }

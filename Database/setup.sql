@@ -1,6 +1,6 @@
-CREATE DATABASE Sample;
+CREATE DATABASE Karma;
 GO 
-USE Sample;
+USE Karma;
 GO 
-CREATE TABLE Sample (ID int, SampleName varchar(max));
+CREATE TABLE Karma (ID int, KarmaName varchar(max));
 GO
