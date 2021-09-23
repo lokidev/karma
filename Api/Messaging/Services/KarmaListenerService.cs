@@ -30,7 +30,7 @@ namespace KarmaApi.Messaging.Services
     private RMQConnection rmqConnection;
     private RMQConsumerChannel consumerChannel;
     private Dictionary<string, CustomBasicConsumer> consumers;
-    private const string ConsumerQueueKeyFormat = "People_receiving_from_{0}";
+    private const string ConsumerQueueKeyFormat = "Karma_receiving_from_{0}";
 
     /// <summary>
     /// This is a background service that processess messages received from Mosanc
