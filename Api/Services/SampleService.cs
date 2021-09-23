@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using KarmaApi.Repos;
 using Microsoft.Extensions.Configuration;
+using KarmaApi.Services.Interfaces;
 
 namespace KarmaApi.Services
 {

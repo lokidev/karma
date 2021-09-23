@@ -1,5 +1,6 @@
 services:
   karma-api:
+    container_name: karma-api
     image: karma-api
     build:
       context: ./Api
@@ -7,9 +8,11 @@ services:
     ports:
       - "5051:80"
     depends_on:
-      - mssql-graph-db
+      - karma-rmq
+      - karma-db
 
-  mssql-graph-db:
+  karma-db:
+    container_name: karma-db
     image: mssql-graph-db
     build:
       context: ./Database
@@ -19,3 +22,15 @@ services:
     environment:
       - SA_PASSWORD=Yukon900
       - ACCEPT_EULA=Y
+
+  karma-rmq:
+    container_name: karma-rmq
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+networks:
+  default:
+    external: true
+    name: karma-network
