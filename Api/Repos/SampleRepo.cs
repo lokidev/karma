@@ -14,11 +14,11 @@ namespace KarmaApi.Repos
             this.db = db;
         }
 
-        public List<Karma> GetProduts()
+        public List<KarmaApi.Models.Karma> GetProduts()
         {
             if (db != null)
             {
-                List<Karma> employees = new List<Karma>();
+                List<KarmaApi.Models.Karma> employees = new List<KarmaApi.Models.Karma>();
 
                 var result = db.Karmas.OrderByDescending(x => x.KarmaName).ToList();
 

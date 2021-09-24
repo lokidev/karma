@@ -3,11 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KarmaApi.Models;
 
 namespace KarmaApi.Services.Interfaces
 {
     public interface IKarmaService
     {
-        public ICollection<Karma> GetAll();
+        public ICollection<KarmaApi.Models.Karma> GetAll();
     }
 }

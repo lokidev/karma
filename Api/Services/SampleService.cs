@@ -18,7 +18,7 @@ namespace KarmaApi.Services
             _configuration = configuration;
         }
 
-        public ICollection<Karma> GetAll()
+        public ICollection<KarmaApi.Models.Karma> GetAll()
         {
             using (var db = new KarmaContext(_configuration))
             {

@@ -181,6 +181,7 @@ namespace KarmaApi.Messaging.Services
     {
         //JObject jObject = JsonConvert.DeserializeObject(payload) as JObject;
         Console.WriteLine("Message Recieved " + topic);
+        //TODO: Decorate person
     }
 
     /// <summary>
