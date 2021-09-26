@@ -14,6 +14,8 @@ using RabbitMQ.Client.Exceptions;
 using RabbitMQ.Client.Events;
 using KarmaApi.Messaging.Configurations;
 using KarmaApi.Messaging.Interfaces;
+using Karma.Decoraters;
+using KarmaApi.Models;
 
 namespace KarmaApi.Messaging.Services
 {
@@ -26,6 +28,7 @@ namespace KarmaApi.Messaging.Services
     private RabbitMQSettings settings;
     private ILogger<KarmaListenerService> logger;
     private IServiceScopeFactory serviceScopeFactory;
+    private IRabbitMqService mRabbitMqService;
 
     private RMQConnection rmqConnection;
     private RMQConsumerChannel consumerChannel;
@@ -48,10 +51,12 @@ namespace KarmaApi.Messaging.Services
     public KarmaListenerService(
       IOptions<RabbitMQSettings> config,
       ILogger<KarmaListenerService> logger,
-      IServiceScopeFactory serviceScopeFactory)
+      IServiceScopeFactory serviceScopeFactory,
+      IRabbitMqService rabbitMqService)
     {
       this.logger = logger;
       this.serviceScopeFactory = serviceScopeFactory;
+      this.mRabbitMqService = rabbitMqService;
       settings = config.Value;
       consumers = new Dictionary<string, CustomBasicConsumer>();
 
@@ -179,9 +184,14 @@ namespace KarmaApi.Messaging.Services
 
     private async void ProcessInboundMessage(string topic, string payload)
     {
-        //JObject jObject = JsonConvert.DeserializeObject(payload) as JObject;
-        Console.WriteLine("Message Recieved " + topic);
-        //TODO: Decorate person
+        if (topic == "people_exchange_main.person.created")
+        {
+            Console.WriteLine("Message Recieved " + topic);
+            var person = JsonConvert.DeserializeObject<Person>(payload);
+            person = PersonDecorator.setLuck(person);
+            mRabbitMqService.sendMessage(person, "karma_exchange_main.person.decorated", true);
+            Console.WriteLine("Message Processed " + topic);
+        }
     }
 
     /// <summary>

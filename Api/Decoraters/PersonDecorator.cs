@@ -16,8 +16,9 @@ namespace Karma.Decoraters
 
     public static float RandomPercentCalculator()
     {
-      var t = new Random(100);
-      return t.Next();
+            Random r = new Random();
+            int rInt = r.Next(50, 100); //for ints
+            return rInt;
     }
   }
 }
