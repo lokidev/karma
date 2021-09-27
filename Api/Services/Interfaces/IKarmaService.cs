@@ -10,5 +10,7 @@ namespace KarmaApi.Services.Interfaces
     public interface IKarmaService
     {
         public ICollection<KarmaApi.Models.Karma> GetAll();
+        public bool StartClock();
+        public bool StopClock();
     }
 }

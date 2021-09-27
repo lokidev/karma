@@ -197,6 +197,13 @@ namespace KarmaApi.Messaging.Services
                 mRabbitMqService.sendMessage(person, "karma_exchange_main.person.decorated", true);
                 Console.WriteLine("Message Processed " + topic);
             }
+
+            if (topic == "world_exchange_main.time.newDay")
+            {
+                Console.WriteLine("Message Received " + topic);
+                var date = JsonConvert.DeserializeObject<DateTime>(payload);
+                Console.WriteLine("Message Received " + topic + " " + date.ToString());
+            }
         }
 
         /// <summary>

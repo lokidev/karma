@@ -23,5 +23,21 @@ namespace KarmaApi.Controllers
         {
             return Ok(_karmaService.GetAll());
         }
+
+        [HttpGet]
+        [Route("clock/start")]
+        public IActionResult StartWorldClock()
+        {
+            _karmaService.StartClock();
+            return Ok("World Started");
+        }
+
+        [HttpGet]
+        [Route("clock/stop")]
+        public IActionResult StopWorldClock()
+        {
+            _karmaService.StopClock();
+            return Ok("World Stopped");
+        }
     }
 }
