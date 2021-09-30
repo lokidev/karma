@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  karma-db:
+    container_name: karma-db
+    image: mssql-graph-db
+    build:
+      context: ../Database
+      dockerfile: Dockerfile
+    ports:
+      - 5431:1433
+    environment:
+      - SA_PASSWORD=Yukon900
+      - ACCEPT_EULA=Y
+
+networks:
+  default:
+    # use the default network of the karma container
+    external: true
+    name: karma_docker_api_default

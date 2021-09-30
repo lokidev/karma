@@ -16,6 +16,7 @@ using KarmaApi.Messaging.Configurations;
 using KarmaApi.Messaging.Interfaces;
 using Karma.Decoraters;
 using KarmaApi.Models;
+using Karma.Messaging.Model;
 
 namespace KarmaApi.Messaging.Services
 {
@@ -188,13 +189,27 @@ namespace KarmaApi.Messaging.Services
             {
                 Console.WriteLine("Message Received " + topic);
                 var person = JsonConvert.DeserializeObject<Person>(payload);
-                person = PersonDecorator.setBirthDate(person);
+                person.BirthDate = DateTime.Now.AddYears(-18);
                 person = PersonDecorator.setGender(person);
                 person = PersonDecorator.setHealth(person);
                 person = PersonDecorator.setHunger(person);
                 person = PersonDecorator.setLuck(person);
                 person = PersonDecorator.setSecurity(person);
                 mRabbitMqService.sendMessage(person, "karma_exchange_main.person.decorated", true);
+                Console.WriteLine("Message Processed " + topic);
+            }
+
+            if (topic == "people_exchange_main.person.concieved")
+            {
+                Console.WriteLine("Message Received " + topic);
+                var newChildPayload = JsonConvert.DeserializeObject<NewChildPayload>(payload);
+                newChildPayload.child.BirthDate = newChildPayload.date;
+                newChildPayload.child = PersonDecorator.setGender(newChildPayload.child);
+                newChildPayload.child = PersonDecorator.setHealth(newChildPayload.child);
+                newChildPayload.child = PersonDecorator.setHunger(newChildPayload.child);
+                newChildPayload.child = PersonDecorator.setLuck(newChildPayload.child);
+                newChildPayload.child = PersonDecorator.setSecurity(newChildPayload.child);
+                mRabbitMqService.sendMessage(newChildPayload.child, "karma_exchange_main.person.decorated", true);
                 Console.WriteLine("Message Processed " + topic);
             }
 
