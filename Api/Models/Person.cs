@@ -12,6 +12,7 @@ namespace KarmaApi.Models
         public string LastName { get; set; }
         public bool? Gender { get; set; }
         public float? Luck { get; set; }
+        public float? Education { get; set; }
         public float? Health { get; set; }
         public float? Hunger { get; set; }
         public float? Security { get; set; }
