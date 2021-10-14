@@ -21,8 +21,8 @@ using Karma.Messaging.Model;
 namespace KarmaApi.Messaging.Services
 {
     /// <summary>
-    /// Listener for additions, deletions, and changes to Mission objects 
-    /// made by the Sample service. 
+    /// Listener for additions, deletions, and changes to Mission objects
+    /// made by the Sample service.
     /// </summary>
     public class KarmaListenerService : IKarmaListenerService, IDisposable
     {
