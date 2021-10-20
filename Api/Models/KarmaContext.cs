@@ -38,6 +38,37 @@ namespace KarmaApi.Models
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
+            modelBuilder.Entity<EventLog>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Message)
+                    .IsRequired()
+                    .HasMaxLength(1000)
+                    .IsUnicode(false)
+                    .HasColumnName("message");
+
+                entity.Property(e => e.MessageType)
+                    .IsRequired()
+                    .HasMaxLength(250)
+                    .IsUnicode(false)
+                    .HasColumnName("messageType");
+
+                entity.Property(e => e.ObjectType)
+                    .IsRequired()
+                    .HasMaxLength(250)
+                    .IsUnicode(false)
+                    .HasColumnName("objectType");
+
+                entity.Property(e => e.RealDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("realDate");
+
+                entity.Property(e => e.WorldDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("worldDate");
+            });
+
             modelBuilder.Entity<Karma>(entity =>
             {
                 entity.HasNoKey();
@@ -45,6 +76,8 @@ namespace KarmaApi.Models
                 entity.ToTable("Karma");
 
                 entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.KarmaName).IsUnicode(false);
             });
 
             OnModelCreatingPartial(modelBuilder);
