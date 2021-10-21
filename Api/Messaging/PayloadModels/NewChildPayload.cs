@@ -1,10 +1,10 @@
-﻿using KarmaApi.Models;
+﻿using KarmaManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Karma.Messaging.Model
+namespace Karma.Messaging.PayloadModels
 {
     public class NewChildPayload
     {

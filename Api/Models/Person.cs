@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace KarmaApi.Models
+namespace KarmaManagement.Models
 {
     public partial class Person
     {

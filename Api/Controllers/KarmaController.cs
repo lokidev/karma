@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using KarmaApi.Services;
-using KarmaApi.Services.Interfaces;
+using KarmaManagement.Services;
+using KarmaManagement.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace KarmaApi.Controllers
+namespace KarmaManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Hosting;
 using System;
 
-namespace KarmaApi.Messaging.Interfaces
+namespace KarmaManagement.Messaging.Interfaces
 {
-  interface IKarmaListenerService
-  {
-  }
+    interface IKarmaListenerService
+    {
+    }
 }

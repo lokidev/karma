@@ -12,13 +12,13 @@ using System.Collections.Generic;
 using System.Threading;
 using RabbitMQ.Client.Exceptions;
 using RabbitMQ.Client.Events;
-using KarmaApi.Messaging.Configurations;
-using KarmaApi.Messaging.Interfaces;
+using KarmaManagement.Messaging.Configurations;
+using KarmaManagement.Messaging.Interfaces;
 using Karma.Decoraters;
-using KarmaApi.Models;
-using Karma.Messaging.Model;
+using KarmaManagement.Models;
+using Karma.Messaging.PayloadModels;
 
-namespace KarmaApi.Messaging.Services
+namespace KarmaManagement.Messaging.Services
 {
     /// <summary>
     /// Listener for additions, deletions, and changes to Mission objects

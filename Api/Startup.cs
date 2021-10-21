@@ -4,7 +4,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using KarmaApi.Services;
+using KarmaManagement.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,12 +14,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using KarmaApi.Messaging.Configurations;
-using KarmaApi.Messaging.Interfaces;
-using KarmaApi.Messaging.Services;
-using KarmaApi.Services.Interfaces;
+using KarmaManagement.Messaging.Configurations;
+using KarmaManagement.Messaging.Interfaces;
+using KarmaManagement.Messaging.Services;
+using KarmaManagement.Services.Interfaces;
+using KarmaManagement.Models;
+using Microsoft.EntityFrameworkCore;
+using KarmaManagement.Configurations;
 
-namespace KarmaApi
+namespace KarmaManagement
 {
     public class Startup
     {
@@ -34,21 +37,30 @@ namespace KarmaApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
+            var connectionString = GetDbConnectionString();
+
+            services.AddDbContext<KarmaManagementContext>(options =>
             {
-                options.AddPolicy(name: MyAllowSpecificOrigins,
-                                    builder =>
-                                    {
-                                        builder
-                                        .AllowAnyHeader()
-                                        .AllowAnyMethod()
-                                        .AllowAnyOrigin();
-                                    });
+                options.UseSqlServer(connectionString,
+                sqlServerOptionsAction: sqlOptions =>
+                {
+                    //Configuring Connection Resiliency:
+                    sqlOptions.
+                        EnableRetryOnFailure(maxRetryCount: 5,
+                        maxRetryDelay: TimeSpan.FromSeconds(30),
+                        errorNumbersToAdd: null);
+                });
             });
+
+            services.ConfigureRepositories()
+                    .ConfigureBusiness()
+                    .ConfigureServices()
+                    .ConfigureUtilities()
+                    .AddCorsConfiguration();
+
             services.AddControllers();
 
-            // Add consumer service to run in the background
-            services.Configure<RabbitMQSettings>(Configuration.GetSection("RabbitMQSettings"));
+            services.Configure<RabbitMQSettings>(Configuration.GetSection(nameof(RabbitMQSettings)));
             services.AddSingleton<IRabbitMqService, RabbitMqService>();
             services.AddSingleton<IKarmaListenerService, KarmaListenerService>();
             services.AddScoped<IKarmaService, KarmaService>();
@@ -59,7 +71,7 @@ namespace KarmaApi
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "Karma API",
+                    Title = "Karma Management API",
                     Description = "A simple example ASP.NET Core Web API",
                     Contact = new OpenApiContact
                     {
@@ -78,7 +90,7 @@ namespace KarmaApi
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             InstantiateRmqServices(app);
-            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -112,6 +124,13 @@ namespace KarmaApi
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private string GetDbConnectionString()
+        {
+            string connectionString = Configuration.GetValue<string>("SqlConnection");
+
+            return connectionString;
         }
 
         /// <summary>

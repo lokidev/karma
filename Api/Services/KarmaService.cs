@@ -1,14 +1,14 @@
-﻿using KarmaApi.Models;
+﻿using KarmaManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using KarmaApi.Repos;
+using KarmaManagement.Repos;
 using Microsoft.Extensions.Configuration;
-using KarmaApi.Services.Interfaces;
-using KarmaApi.Messaging.Interfaces;
+using KarmaManagement.Services.Interfaces;
+using KarmaManagement.Messaging.Interfaces;
 
-namespace KarmaApi.Services
+namespace KarmaManagement.Services
 {
     public class KarmaService : IKarmaService
     {
@@ -21,9 +21,9 @@ namespace KarmaApi.Services
             mRabbitMqService = rabbitMqService;
         }
 
-        public ICollection<KarmaApi.Models.Karma> GetAll()
+        public ICollection<KarmaManagement.Models.Karma> GetAll()
         {
-            using (var db = new KarmaContext(_configuration))
+            using (var db = new KarmaManagementContext(_configuration))
             {
                 var t = new KarmaRepo(db);
                 return t.GetProduts();

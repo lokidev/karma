@@ -5,18 +5,18 @@ using Microsoft.Extensions.Configuration;
 
 #nullable disable
 
-namespace KarmaApi.Models
+namespace KarmaManagement.Models
 {
-    public partial class KarmaContext : DbContext
+    public partial class KarmaManagementContext : DbContext
     {
         private readonly IConfiguration _configuration;
 
-        public KarmaContext(IConfiguration configuration)
+        public KarmaManagementContext(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public KarmaContext(DbContextOptions<KarmaContext> options, IConfiguration configuration)
+        public KarmaManagementContext(DbContextOptions<KarmaManagementContext> options, IConfiguration configuration)
             : base(options)
         {
             _configuration = configuration;
