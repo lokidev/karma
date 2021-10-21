@@ -231,7 +231,7 @@ namespace KarmaManagement.Messaging.Services
                 message.MessageType = "Died";
                 message.RealDate = DateTime.Now;
                 message.WorldDate = person.DeathDate;
-                message.Message = message.ObjectType + " " + person.Id + " " + " " + message.MessageType + " " + message.WorldDate;
+                message.Message = message.ObjectType + " " + person.Id + " " + " " + message.MessageType + " Lived " + (person.DeathDate.Value.Year - person.BirthDate.Value.Year) + " years "  + person.BirthDate.Value.ToShortDateString() + "-" + person.DeathDate.Value.ToShortDateString();
                 karmaService.LogMessage(message);
                 Console.WriteLine("Message Processed " + topic);
             }

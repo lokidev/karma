@@ -34,7 +34,7 @@ namespace KarmaManagement.Repos
             if (db != null)
             {
 
-                var result = db.Logs.Add(eventLog);
+                var result = db.EventLogs.Add(eventLog);
                 db.SaveChanges();
                 return result.Entity;
             }
