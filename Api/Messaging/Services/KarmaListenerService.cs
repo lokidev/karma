@@ -14,9 +14,11 @@ using RabbitMQ.Client.Exceptions;
 using RabbitMQ.Client.Events;
 using KarmaManagement.Messaging.Configurations;
 using KarmaManagement.Messaging.Interfaces;
-using Karma.Decoraters;
+using KarmaManagement.Decoraters;
 using KarmaManagement.Models;
-using Karma.Messaging.PayloadModels;
+using KarmaManagement.Messaging.PayloadModels;
+using KarmaManagement.Services;
+using Microsoft.Extensions.Configuration;
 
 namespace KarmaManagement.Messaging.Services
 {
@@ -30,6 +32,7 @@ namespace KarmaManagement.Messaging.Services
         private ILogger<KarmaListenerService> logger;
         private IServiceScopeFactory serviceScopeFactory;
         private IRabbitMqService mRabbitMqService;
+        private IConfiguration mConfiguration;
 
         private RMQConnection rmqConnection;
         private RMQConsumerChannel consumerChannel;
@@ -53,10 +56,12 @@ namespace KarmaManagement.Messaging.Services
           IOptions<RabbitMQSettings> config,
           ILogger<KarmaListenerService> logger,
           IServiceScopeFactory serviceScopeFactory,
+          IConfiguration configuration,
           IRabbitMqService rabbitMqService)
         {
             this.logger = logger;
             this.serviceScopeFactory = serviceScopeFactory;
+            this.mConfiguration = configuration;
             this.mRabbitMqService = rabbitMqService;
             settings = config.Value;
             consumers = new Dictionary<string, CustomBasicConsumer>();
@@ -185,6 +190,67 @@ namespace KarmaManagement.Messaging.Services
 
         private async void ProcessInboundMessage(string topic, string payload)
         {
+            var karmaService = new KarmaService(mConfiguration, mRabbitMqService);
+            if (topic == "people_exchange_main.person.created")
+            {
+                var person = JsonConvert.DeserializeObject<Person>(payload);
+                Console.WriteLine("Message Received " + topic);
+                karmaService = new KarmaService(mConfiguration, mRabbitMqService);
+                var message = new EventLog();
+                message.ObjectType = "Person";
+                message.MessageType = "Created";
+                message.RealDate = DateTime.Now;
+                message.WorldDate = null;
+                message.Message = message.ObjectType + " " + person.Id + " " + message.MessageType; 
+                karmaService.LogMessage(message);
+                Console.WriteLine("Message Processed " + topic);
+            }
+
+            if (topic == "people_exchange_main.person.updated")
+            {
+                var person = JsonConvert.DeserializeObject<Person>(payload);
+                Console.WriteLine("Message Received " + topic);
+                karmaService = new KarmaService(mConfiguration, mRabbitMqService);
+                var message = new EventLog();
+                message.ObjectType = "Person";
+                message.MessageType = "Updated";
+                message.RealDate = DateTime.Now;
+                message.WorldDate = null;
+                message.Message = message.ObjectType + " " + person.Id + " " + message.MessageType;
+                karmaService.LogMessage(message);
+                Console.WriteLine("Message Processed " + topic);
+            }
+
+            if (topic == "people_exchange_main.person.died")
+            {
+                var person = JsonConvert.DeserializeObject<Person>(payload);
+                Console.WriteLine("Message Received " + topic);
+                karmaService = new KarmaService(mConfiguration, mRabbitMqService);
+                var message = new EventLog();
+                message.ObjectType = "Person";
+                message.MessageType = "Died";
+                message.RealDate = DateTime.Now;
+                message.WorldDate = person.DeathDate;
+                message.Message = message.ObjectType + " " + person.Id + " " + " " + message.MessageType + " " + message.WorldDate;
+                karmaService.LogMessage(message);
+                Console.WriteLine("Message Processed " + topic);
+            }
+
+            if (topic == "people_exchange_main.person.mated")
+            {
+                var person = JsonConvert.DeserializeObject<Person>(payload);
+                Console.WriteLine("Message Received " + topic);
+                karmaService = new KarmaService(mConfiguration, mRabbitMqService);
+                var message = new EventLog();
+                message.ObjectType = "Person";
+                message.MessageType = "Mated";
+                message.RealDate = DateTime.Now;
+                message.WorldDate = null;
+                message.Message = message.ObjectType + " " + person.Id + " " + message.MessageType;
+                karmaService.LogMessage(message);
+                Console.WriteLine("Message Processed " + topic);
+            }
+
             if (topic == "people_exchange_main.person.seeded")
             {
                 Console.WriteLine("Message Received " + topic);
@@ -210,6 +276,16 @@ namespace KarmaManagement.Messaging.Services
                 newChildPayload.child = PersonDecorator.setLuck(newChildPayload.child);
                 newChildPayload.child = PersonDecorator.setSecurity(newChildPayload.child);
                 mRabbitMqService.sendMessage(newChildPayload.child, "karma_exchange_main.person.decorated", true);
+
+                karmaService = new KarmaService(mConfiguration, mRabbitMqService);
+                var message = new EventLog();
+                message.ObjectType = "Person";
+                message.MessageType = "Concieved";
+                message.RealDate = DateTime.Now;
+                message.WorldDate = null;
+                message.Message = message.ObjectType + " " + newChildPayload.child.Id + " " + message.MessageType + " " + newChildPayload.child.BirthDate;
+                karmaService.LogMessage(message);
+
                 Console.WriteLine("Message Processed " + topic);
             }
 

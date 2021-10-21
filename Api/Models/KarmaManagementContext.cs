@@ -23,6 +23,7 @@ namespace KarmaManagement.Models
         }
 
         public virtual DbSet<Karma> Karmas { get; set; }
+        public virtual DbSet<EventLog> Logs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

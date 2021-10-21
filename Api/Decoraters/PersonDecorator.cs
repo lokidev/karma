@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Karma.Decoraters
+namespace KarmaManagement.Decoraters
 {
     public class PersonDecorator
     {

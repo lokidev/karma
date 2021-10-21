@@ -23,7 +23,7 @@ CREATE TABLE [dbo].[EventLogs](
 	[objectType] [varchar](250) NOT NULL,
 	[messageType] [varchar](250) NOT NULL,
 	[message] [varchar](1000) NOT NULL,
-	[worldDate] [datetime] NOT NULL,
+	[worldDate] [datetime] NULL,
 	[realDate] [datetime] NOT NULL,
  CONSTRAINT [PK_EventLogs] PRIMARY KEY CLUSTERED 
 (

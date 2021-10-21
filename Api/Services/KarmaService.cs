@@ -21,12 +21,21 @@ namespace KarmaManagement.Services
             mRabbitMqService = rabbitMqService;
         }
 
-        public ICollection<KarmaManagement.Models.Karma> GetAll()
+        public ICollection<Karma> GetAll()
         {
             using (var db = new KarmaManagementContext(_configuration))
             {
                 var t = new KarmaRepo(db);
                 return t.GetProduts();
+            }
+        }
+
+        public EventLog LogMessage(EventLog eventLog)
+        {
+            using (var db = new KarmaManagementContext(_configuration))
+            {
+                var repo = new KarmaRepo(db);
+                return repo.LogMessage(eventLog);
             }
         }
 

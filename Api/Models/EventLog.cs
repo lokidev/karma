@@ -11,7 +11,7 @@ namespace KarmaManagement.Models
         public string ObjectType { get; set; }
         public string MessageType { get; set; }
         public string Message { get; set; }
-        public DateTime WorldDate { get; set; }
+        public DateTime? WorldDate { get; set; }
         public DateTime RealDate { get; set; }
     }
 }

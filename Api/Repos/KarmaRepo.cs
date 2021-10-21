@@ -15,15 +15,28 @@ namespace KarmaManagement.Repos
             this.db = db;
         }
 
-        public List<KarmaManagement.Models.Karma> GetProduts()
+        public List<Karma> GetProduts()
         {
             if (db != null)
             {
-                List<KarmaManagement.Models.Karma> employees = new List<KarmaManagement.Models.Karma>();
+                List<Karma> employees = new List<Karma>();
 
                 var result = db.Karmas.OrderByDescending(x => x.KarmaName).ToList();
 
                 return result;
+            }
+
+            return null;
+        }
+
+        public EventLog LogMessage(EventLog eventLog)
+        {
+            if (db != null)
+            {
+
+                var result = db.Logs.Add(eventLog);
+                db.SaveChanges();
+                return result.Entity;
             }
 
             return null;
