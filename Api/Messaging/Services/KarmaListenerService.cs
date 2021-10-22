@@ -282,7 +282,7 @@ namespace KarmaManagement.Messaging.Services
                 message.ObjectType = "Person";
                 message.MessageType = "Concieved";
                 message.RealDate = DateTime.Now;
-                message.WorldDate = null;
+                message.WorldDate = newChildPayload.child.BirthDate;
                 message.Message = message.ObjectType + " " + newChildPayload.child.Id + " " + message.MessageType + " " + newChildPayload.child.BirthDate;
                 karmaService.LogMessage(message);
 

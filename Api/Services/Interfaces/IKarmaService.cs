@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace KarmaManagement.Services.Interfaces
 {
-    public interface IKarmaService
-    {
-        public ICollection<KarmaManagement.Models.Karma> GetAll();
-        public bool StartClock();
-        public bool StopClock();
-    }
+  public interface IKarmaService
+  {
+    ICollection<Karma> GetAll();
+    EventLog LogMessage(EventLog eventLog);
+    List<EventLog> GetLogs(string objectType, string messageType, DateTime? currDateTime);
+    bool StartClock();
+    bool StopClock();
+  }
 }
