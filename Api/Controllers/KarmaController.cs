@@ -9,44 +9,52 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KarmaManagement.Controllers
 {
-  [Route("api/[controller]")]
-  [ApiController]
-  public class KarmaController : ControllerBase
-  {
-    private IKarmaService _karmaService;
-    public KarmaController(IKarmaService karmaService)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class KarmaController : ControllerBase
     {
-      _karmaService = karmaService;
-    }
+        private IKarmaService _karmaService;
+        public KarmaController(IKarmaService karmaService)
+        {
+            _karmaService = karmaService;
+        }
 
-    [HttpGet]
-    public IActionResult GetAll()
-    {
-      return Ok(_karmaService.GetAll());
-    }
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            return Ok(_karmaService.GetAll());
+        }
 
-    [HttpPost]
-    [Route("logs")]
-    public IActionResult GetLogs(LogsRequestModel requestBody)
-    {
-      var result = _karmaService.GetLogs(requestBody.objectType, requestBody.messageType, requestBody.currDateTime);
-      return Ok(result);
-    }
+        [HttpPost]
+        [Route("logs")]
+        public IActionResult GetLogs(LogsRequestModel requestBody)
+        {
+            var result = _karmaService.GetLogs(requestBody.objectType, requestBody.messageType, requestBody.currDateTime);
+            return Ok(result);
+        }
 
-    [HttpGet]
-    [Route("clock/start")]
-    public IActionResult StartWorldClock()
-    {
-      _karmaService.StartClock();
-      return Ok("World Started");
-    }
+        [HttpPost]
+        [Route("logsCount")]
+        public IActionResult GetLogsCount(LogsRequestModel requestBody)
+        {
+            var result = _karmaService.GetLogsCount(requestBody.objectType, requestBody.messageType, requestBody.currDateTime);
+            return Ok(result);
+        }
 
-    [HttpGet]
-    [Route("clock/stop")]
-    public IActionResult StopWorldClock()
-    {
-      _karmaService.StopClock();
-      return Ok("World Stopped");
+        [HttpGet]
+        [Route("clock/start")]
+        public IActionResult StartWorldClock()
+        {
+            _karmaService.StartClock();
+            return Ok("World Started");
+        }
+
+        [HttpGet]
+        [Route("clock/stop")]
+        public IActionResult StopWorldClock()
+        {
+            _karmaService.StopClock();
+            return Ok("World Stopped");
+        }
     }
-  }
 }

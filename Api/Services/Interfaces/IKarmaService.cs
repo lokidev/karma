@@ -11,6 +11,7 @@ namespace KarmaManagement.Services.Interfaces
     ICollection<Karma> GetAll();
     EventLog LogMessage(EventLog eventLog);
     List<EventLog> GetLogs(string objectType, string messageType, DateTime? currDateTime);
+    int GetLogsCount(string objectType, string messageType, DateTime? currDateTime);
     bool StartClock();
     bool StopClock();
   }

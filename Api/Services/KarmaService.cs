@@ -10,54 +10,63 @@ using KarmaManagement.Messaging.Interfaces;
 
 namespace KarmaManagement.Services
 {
-  public class KarmaService : IKarmaService
-  {
-    private readonly IConfiguration _configuration;
-    private IRabbitMqService mRabbitMqService;
-
-    public KarmaService(IConfiguration configuration, IRabbitMqService rabbitMqService)
+    public class KarmaService : IKarmaService
     {
-      _configuration = configuration;
-      mRabbitMqService = rabbitMqService;
-    }
+        private readonly IConfiguration _configuration;
+        private IRabbitMqService mRabbitMqService;
 
-    public ICollection<Karma> GetAll()
-    {
-      using (var db = new KarmaManagementContext(_configuration))
-      {
-        var t = new KarmaRepo(db);
-        return t.GetProduts();
-      }
-    }
+        public KarmaService(IConfiguration configuration, IRabbitMqService rabbitMqService)
+        {
+            _configuration = configuration;
+            mRabbitMqService = rabbitMqService;
+        }
 
-    public EventLog LogMessage(EventLog eventLog)
-    {
-      using (var db = new KarmaManagementContext(_configuration))
-      {
-        var repo = new KarmaRepo(db);
-        return repo.LogMessage(eventLog);
-      }
-    }
+        public ICollection<Karma> GetAll()
+        {
+            using (var db = new KarmaManagementContext(_configuration))
+            {
+                var t = new KarmaRepo(db);
+                return t.GetProduts();
+            }
+        }
 
-    public List<EventLog> GetLogs(string objectType, string messageType, DateTime? currDateTime)
-    {
-      using (var db = new KarmaManagementContext(_configuration))
-      {
-        var repo = new KarmaRepo(db);
-        return repo.GetLogs(objectType, messageType, currDateTime);
-      }
-    }
+        public EventLog LogMessage(EventLog eventLog)
+        {
+            using (var db = new KarmaManagementContext(_configuration))
+            {
+                var repo = new KarmaRepo(db);
+                return repo.LogMessage(eventLog);
+            }
+        }
 
-    public bool StartClock()
-    {
-      mRabbitMqService.sendMessage(DateTime.Now, "karma_exchange_main.clock.start", true);
-      return true;
-    }
+        public List<EventLog> GetLogs(string objectType, string messageType, DateTime? currDateTime)
+        {
+            using (var db = new KarmaManagementContext(_configuration))
+            {
+                var repo = new KarmaRepo(db);
+                return repo.GetLogs(objectType, messageType, currDateTime);
+            }
+        }
 
-    public bool StopClock()
-    {
-      mRabbitMqService.sendMessage(DateTime.Now, "karma_exchange_main.clock.stop", true);
-      return true;
+        public int GetLogsCount(string objectType, string messageType, DateTime? currDateTime)
+        {
+            using (var db = new KarmaManagementContext(_configuration))
+            {
+                var repo = new KarmaRepo(db);
+                return repo.GetLogsCount(objectType, messageType, currDateTime);
+            }
+        }
+
+        public bool StartClock()
+        {
+            mRabbitMqService.sendMessage(DateTime.Now, "karma_exchange_main.clock.start", true);
+            return true;
+        }
+
+        public bool StopClock()
+        {
+            mRabbitMqService.sendMessage(DateTime.Now, "karma_exchange_main.clock.stop", true);
+            return true;
+        }
     }
-  }
 }

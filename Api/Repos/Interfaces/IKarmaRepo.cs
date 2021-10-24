@@ -11,5 +11,6 @@ namespace KarmaManagement.Repos.Interfaces
     List<Karma> GetProduts();
     EventLog LogMessage(EventLog eventLog);
     List<EventLog> GetLogs(string objectType, string messageType, DateTime? currDateTime);
+    int GetLogsCount(string objectType, string messageType, DateTime? currDateTime);
   }
 }
